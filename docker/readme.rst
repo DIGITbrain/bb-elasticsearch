@@ -55,7 +55,7 @@ The following steps are based on the original description for a single node inst
 
     docker exec -it elastic /usr/share/elasticsearch/bin/elasticsearch-reset-password
 
-4. Copy the `http_ca.crt` from the container to your local host:
+4. Copy ``http_ca.crt`` from the container to your local host:
 
   .. code-block:: bash
 
