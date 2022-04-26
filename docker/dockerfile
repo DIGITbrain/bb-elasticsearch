@@ -2,5 +2,3 @@
 # docker run -d --name elastic -p 9300:9300 -e "discovery.type=single-node" elastic:8.1.2
 
 FROM elasticsearch:8.1.2
-
-# TODO

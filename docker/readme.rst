@@ -4,11 +4,11 @@ Elasticsearch
 
 About
 =====
-**Elasticsearch** [1]_ is a distributed, RESTful search and analytics engine capable of addressing a growing number of use cases. 
+**Elasticsearch** [1]_ is a distributed, RESTful search and analytics engine capable of addressing a growing number of use cases.
 
 Version
 -------
-Elasticsearch version **8.1.2** deployed based on the official Docker Hub image: [2]_. 
+Elasticsearch version **8.1.2** deployed based on the official Docker Hub image [2]_ and single node documentation [4]_.
 
 License
 -------
@@ -18,22 +18,57 @@ Pre-requisites
 ==============
 * *docker* installed
 * access to DIGITbrain private docker repo (username, password) to pull the image:
-  
+
   - ``docker login dbs-container-repo.emgora.eu``
   - ``docker pull dbs-container-repo.emgora.eu/elastic:8.1.2``
 
 Usage
 =====
-.. code-block:: bash
+The following steps are based on the original description for a single node instance [4]_.
 
-  docker run -d --rm \
-      --name elastic \
-      -e "discovery.type=single-node" \
-      -p 9300:9300 \
-      elastic:8.1.2 
+1. Create a docker network for Elasticsearch:
 
-where TODO ...,
-standard Elasticsearch port 9300 is opened on the host, and SSL is turned on.
+  .. code-block:: bash
+
+    docker network create elastic
+
+2. Start Elasticsearch:
+
+  .. code-block:: bash
+
+    docker run -d --rm \
+        --name elastic \
+        --net elastic \
+        -e ES_JAVA_OPTS="-Xms1g -Xmx1g" \
+        -e "discovery.type=single-node" \
+        -p 9300:9300 \
+        dbs-container-repo.emgora.eu/elastic:8.1.2
+
+
+3. A password is generated for the elastic user and output to the terminal. (Additionally, an enrollment for Kibana is also created.)
+
+   Copy and save the password and enrollment token as they are only shown once.
+
+   If you need you can reset the password using the following command:
+
+  .. code-block:: bash
+
+    docker exec -it elastic /usr/share/elasticsearch/bin/elasticsearch-reset-password
+
+4. Copy the `http_ca.crt` from the container to your local host:
+
+  .. code-block:: bash
+
+    docker cp elastic:/usr/share/elasticsearch/config/certs/http_ca.crt .
+
+5. Open a terminal and verify connection to your instance:
+
+  .. code-block:: bash
+
+    curl --cacert http_ca.crt -u elastic https://localhost:9200
+
+
+The standard Elasticsearch port 9300 is opened on the host, and SSL is turned on.
 
 
 Security
@@ -46,11 +81,10 @@ see *volumes* parameters below.
 Configuration
 =============
 
-TODO:
 
 Environment variables
 ---------------------
-.. list-table:: 
+.. list-table::
    :header-rows: 1
 
    * - Name
@@ -58,11 +92,14 @@ Environment variables
      - Comment
    * - *Disovery type*
      - ``-e discovery.type=single-node``
-     - TODO 
+     - Single node discovery for single node instance.
+   * - *Setting Java heap*
+     - ``-e ES_JAVA_OPTS="-Xms1g -Xmx1g"``
+     - Set Java heap to 1g (replace ``1g`` with desired value).
 
 Ports
 -----
-.. list-table:: 
+.. list-table::
   :header-rows: 1
 
   * - Container port
@@ -70,27 +107,27 @@ Ports
     - Comment
   * - *9300*
     - ``-p 19300:9300``
-    - Default Elasticsearch container port 9300 is opened as port 19300 on the host  
+    - Default Elasticsearch container port 9300 is opened as port 19300 on the host
 
 Volumes
 -------
-.. list-table:: 
+.. list-table::
   :header-rows: 1
 
   * - Name
     - Volume mount example
     - Comment
-  * - *Data*    
+  * - *Data*
     - ``-v $PWD/data:?``
     - Elasticsearch data will be persisted in host directory: ``./data``.
-  * - *CA certificate*    
-    - ``-v $PWD/certificates/ca.pem:?``  
+  * - *CA certificate*
+    - ``-v $PWD/certificates/ca.pem:?``
     - Overrides Certificate Authority (CA) certificate
-  * - *Server key*    
-    - ``-v $PWD/certificates/server-key.pem:?``  
+  * - *Server key*
+    - ``-v $PWD/certificates/server-key.pem:?``
     - Overrides server key
-  * - *Server certificate*    
-    - ``-v $PWD/certificates/server-cert.pem:?``  
+  * - *Server certificate*
+    - ``-v $PWD/certificates/server-cert.pem:?``
     - Overrides server certificate
 
 References
@@ -101,3 +138,4 @@ References
 
 .. [3] https://github.com/elastic/elasticsearch/blob/master/licenses/ELASTIC-LICENSE-2.0.txt
 
+.. [4] https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-dev-mode
