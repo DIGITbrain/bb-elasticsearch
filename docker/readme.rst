@@ -42,9 +42,23 @@ The following steps are based on the original description for a single node inst
         --name elastic \
         --net elastic \
         -e ES_JAVA_OPTS="-Xms1g -Xmx1g" \
+        -e "node.name=elastic" \
         -e "discovery.type=single-node" \
         -e "ELASTIC_PASSWORD=<PASSWORD>" \
+        -e "xpack.security.enabled=true" \
+        -e "xpack.security.http.ssl.enabled=true" \
+        -e "xpack.security.http.ssl.key=certs/server-key.pem" \
+        -e "xpack.security.http.ssl.certificate=certs/server-cert.pem" \
+        -e "xpack.security.http.ssl.certificate_authorities=certs/ca.pem" \
+        -e "xpack.security.http.ssl.verification_mode=certificate" \
+        -e "xpack.security.transport.ssl.enabled=true" \
+        -e "xpack.security.transport.ssl.key=certs/server-key.pem" \
+        -e "xpack.security.transport.ssl.certificate=certs/server-cert.pem" \
+        -e "xpack.security.transport.ssl.certificate_authorities=certs/ca.pem" \
+        -e "xpack.security.transport.ssl.verification_mode=certificate" \
+        -e "xpack.license.self_generated.type=basic" \
         -p 9300:9300 \
+        -p 9200:9200 \
         dbs-container-repo.emgora.eu/elasticsearch:8.1.2
 
 3. A password is generated for the elastic user and output to the terminal. (Additionally, an enrollment for Kibana is also created.)

@@ -2,3 +2,13 @@
 # docker run -d --name elastic -p 9300:9300 -e "discovery.type=single-node" elastic:8.1.2
 
 FROM elasticsearch:8.1.2
+USER root
+
+COPY ./certificates/ca.pem /usr/share/elasticsearch/config/certs/ca.pem
+COPY ./certificates/server-key.pem /usr/share/elasticsearch/config/certs/server-key.pem
+COPY ./certificates/server-cert.pem /usr/share/elasticsearch/config/certs/server-cert.pem
+RUN chmod 660 /usr/share/elasticsearch/config/certs/*.pem
+RUN chmod 660 /usr/share/elasticsearch/config/certs/server-key.pem
+RUN chown elasticsearch:root /usr/share/elasticsearch/config/certs/*.pem
+
+USER elasticsearch
