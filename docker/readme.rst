@@ -36,6 +36,8 @@ The following steps are based on the original description for a single node inst
 
   .. code-block:: bash
 
+    docker network create elastic
+
     docker run -d --rm \
         --name elastic \
         --net elastic \
@@ -43,7 +45,7 @@ The following steps are based on the original description for a single node inst
         -e "discovery.type=single-node" \
         -e "ELASTIC_PASSWORD=<PASSWORD>" \
         -p 9300:9300 \
-        dbs-container-repo.emgora.eu/elastic:8.1.2
+        dbs-container-repo.emgora.eu/elasticsearch:8.1.2
 
 3. A password is generated for the elastic user and output to the terminal. (Additionally, an enrollment for Kibana is also created.)
 
