@@ -115,6 +115,9 @@ Environment variables
    * - *Setting Elastic password*
      - ``-e "ELASTIC_PASSWORD=<PASSWORD>"``
      - Replace <PASSWORD> with the desired password.
+   * - *Using auto-generated certificates*
+     - Remove the``xpack.*`` enviroment variables from the docker run command.
+     - In this case elastic will generate the certificates and keys.
 
 Ports
 -----
