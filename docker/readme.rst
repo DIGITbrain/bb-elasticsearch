@@ -89,7 +89,7 @@ The standard Elasticsearch port 9300 is opened on the host, and SSL is turned on
 
 Security
 ========
-TODO: The image uses **SSL/TLS traffic encryption** and **username-password authentication**, by
+The image uses **SSL/TLS traffic encryption** and **password authentication**, by
 default using a DIGITbrain server certificate signed by DIGITbrain CA. You can override these certificates with your own,
 see *volumes* parameters below.
 
@@ -143,13 +143,13 @@ Volumes
     - ``-v $PWD/data:?``
     - Elasticsearch data will be persisted in host directory: ``./data``.
   * - *CA certificate*
-    - ``-v $PWD/certificates/ca.pem:?``
+    - ``-v $PWD/certificates/ca.pem:/usr/share/elasticsearch/config/certs/ca.pem``
     - Overrides Certificate Authority (CA) certificate
   * - *Server key*
-    - ``-v $PWD/certificates/server-key.pem:?``
+    - ``-v $PWD/certificates/server-key.pem:/usr/share/elasticsearch/config/certs/server-key.pem``
     - Overrides server key
   * - *Server certificate*
-    - ``-v $PWD/certificates/server-cert.pem:?``
+    - ``-v $PWD/certificates/server-cert.pem:/usr/share/elasticsearch/config/certs/server-cert.pem``
     - Overrides server certificate
 
 References
