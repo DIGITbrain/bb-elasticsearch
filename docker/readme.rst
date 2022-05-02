@@ -61,9 +61,7 @@ The following steps are based on the original description for a single node inst
         -p 9200:9200 \
         dbs-container-repo.emgora.eu/elasticsearch:8.1.2
 
-3. A password is generated for the elastic user and output to the terminal. (Additionally, an enrollment for Kibana is also created.)
-
-   Copy and save the password and enrollment token as they are only shown once.
+3. If the `ELASTIC_PASSWORD` environment variable is not used, then a password is generated for the elastic user and output to the terminal. (Additionally, an enrollment for Kibana is also created.)
 
    If you need you can reset the password using the following command:
 
@@ -71,13 +69,7 @@ The following steps are based on the original description for a single node inst
 
     docker exec -it elastic /usr/share/elasticsearch/bin/elasticsearch-reset-password
 
-4. Copy ``http_ca.crt`` from the container to your local host:
-
-  .. code-block:: bash
-
-    docker cp elastic:/usr/share/elasticsearch/config/certs/http_ca.crt .
-
-5. Open a terminal and verify connection to your instance:
+4. Open a terminal and verify connection to your instance (replace `http_ca.crt` with your ca cert):
 
   .. code-block:: bash
 
