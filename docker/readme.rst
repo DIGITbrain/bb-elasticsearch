@@ -8,7 +8,7 @@ About
 
 Version
 -------
-Elasticsearch version **8.1.2** deployed based on the official Docker Hub image [2]_ and single node documentation [4]_.
+Elasticsearch version **8.8.1** deployed based on the official Docker Hub image [2]_ and single node documentation [4]_.
 
 License
 -------
@@ -20,7 +20,7 @@ Pre-requisites
 * access to DIGITbrain private docker repo (username, password) to pull the image:
 
   - ``docker login dbs-container-repo.emgora.eu``
-  - ``docker pull dbs-container-repo.emgora.eu/elastic:8.1.2``
+  - ``docker pull dbs-container-repo.emgora.eu/elastic:8.8.1``
 
 Usage
 =====
@@ -59,7 +59,7 @@ The following steps are based on the original description for a single node inst
         -e "xpack.license.self_generated.type=basic" \
         -p 9300:9300 \
         -p 9200:9200 \
-        dbs-container-repo.emgora.eu/elasticsearch:8.1.2
+        dbs-container-repo.emgora.eu/elasticsearch:8.8.1
 
 3. If the `ELASTIC_PASSWORD` environment variable is not used, then a password is generated for the elastic user and output to the terminal. (Additionally, an enrollment for Kibana is also created.)
 
